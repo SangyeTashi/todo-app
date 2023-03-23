@@ -1,7 +1,8 @@
 import { Flex, Input, Button, Text, Box } from '@chakra-ui/react';
 import { useRef } from 'react';
 import { useRecoilState } from 'recoil';
-import ToDo from './ToDo';
+import CompletedTasks from './CompletedTasks';
+import Tasks from './Tasks';
 import { todoListAtom } from './todoAtom';
 
 function Body() {
@@ -13,17 +14,11 @@ function Body() {
                 ...todoList,
                 { title: inputRef.current.value, completed: false },
             ]);
-
             inputRef.current.value = '';
         }
     };
     return (
-        <Flex
-            alignItems="center"
-            direction="column"
-            padding={8}
-            bgColor={'gray.50'}
-        >
+        <Flex alignItems="center" direction="column" padding={8} height="">
             <Flex mb={4}>
                 <Input
                     variant={'outline'}
@@ -32,9 +27,8 @@ function Body() {
                     roundedRight={'none'}
                     ref={inputRef}
                     placeholder="Add a task.."
-                    _focus={{
-                        bgColor: 'gray.100',
-                    }}
+                    bgColor={'whiteAlpha.800'}
+                    borderColor={'whiteAlpha.800'}
                 />
                 <Button
                     color={'white'}
@@ -47,30 +41,17 @@ function Body() {
                     +
                 </Button>
             </Flex>
+
             <Flex
                 direction={'column'}
-                bgColor={'gray.200'}
+                bgColor={'whiteAlpha.800'}
                 padding={4}
                 rounded={'lg'}
                 minWidth={280}
+                maxWidth={400}
             >
-                <Text fontSize={20} fontWeight={'bold'}>
-                    Tasks :
-                </Text>
-                <Flex direction="column-reverse" marginBottom={3}>
-                    {todoList.map(
-                        (todo, index) => !todo.completed && <ToDo todo={todo} />
-                    )}
-                </Flex>
-
-                <Flex direction="column" color={'gray.700'}>
-                    <Text fontSize={18} fontWeight={'bold'} marginBottom="2">
-                        Completed Tasks :
-                    </Text>
-                    {todoList.map(
-                        (todo, index) => todo.completed && <ToDo todo={todo} />
-                    )}
-                </Flex>
+                <Tasks />
+                <CompletedTasks />
             </Flex>
         </Flex>
     );
