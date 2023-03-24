@@ -2,7 +2,7 @@ import { CheckIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { useRecoilState } from 'recoil';
 import { completedTodoListAtom, Todo, todoListAtom } from './todoAtom';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const Tasks = () => {
     const [todoList, setTodoList] = useRecoilState(todoListAtom);
@@ -35,18 +35,20 @@ const Tasks = () => {
                 {todoList.map((todo, index) => (
                     <motion.div
                         initial={{
-                            y: -50,
+                            y: -30,
                             opacity: 0,
-                            scaleX: 0.1,
                         }}
                         animate={{
                             y: 0,
                             opacity: 1,
-                            scaleX: 1,
                         }}
                         transition={{
                             ease: 'easeIn',
                             duration: 0.2,
+                        }}
+                        exit={{
+                            x: 50,
+                            opacity: 0,
                         }}
                     >
                         <Flex
