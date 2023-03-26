@@ -1,14 +1,19 @@
 import { DeleteIcon } from '@chakra-ui/icons';
-import { Box, Button, Center, Flex, Text } from '@chakra-ui/react';
+import { Button, Flex, Text } from '@chakra-ui/react';
 import { useRecoilState } from 'recoil';
 import { completedTodoListAtom, Todo } from './todoAtom';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 
 const CompletedTasks = () => {
+    const [parentRef] = useAutoAnimate<HTMLDivElement>();
     const [completedTasks, setCompletedTask] = useRecoilState(
         completedTodoListAtom
     );
     function handleClick(index: number) {
-        const newList = deleteItemAtIndex(completedTasks, index);
+        const newList = [
+            ...completedTasks.slice(0, index),
+            ...completedTasks.slice(index + 1),
+        ];
         setCompletedTask(newList);
     }
     return (
@@ -16,7 +21,7 @@ const CompletedTasks = () => {
             <Text textAlign={'center'} color={'gray.500'} mb="1">
                 {completedTasks.length !== 0 && 'Completed Tasks'}
             </Text>
-            <Flex direction={'column-reverse'}>
+            <Flex direction={'column-reverse'} ref={parentRef}>
                 {completedTasks.map((todo, index) => (
                     <Flex
                         minWidth={40}
@@ -48,7 +53,4 @@ const CompletedTasks = () => {
     );
 };
 
-function deleteItemAtIndex(arr: Todo[], index: number) {
-    return [...arr.slice(0, index), ...arr.slice(index + 1)];
-}
 export default CompletedTasks;

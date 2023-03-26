@@ -1,14 +1,18 @@
 import { CheckIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { useRecoilState } from 'recoil';
-import { completedTodoListAtom, Todo, todoListAtom } from './todoAtom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { completedTodoListAtom, todoListAtom } from './todoAtom';
+
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 
 const Tasks = () => {
     const [todoList, setTodoList] = useRecoilState(todoListAtom);
     const [completedTasks, setCompletedTask] = useRecoilState(
         completedTodoListAtom
     );
+
+    const [parent] = useAutoAnimate();
+
     function handleChange(index: number) {
         const taskCompleted = todoList.at(index);
 
@@ -19,8 +23,6 @@ const Tasks = () => {
             ...todoList.slice(0, index),
             ...todoList.slice(index + 1),
         ]);
-
-        console.log(todoList);
     }
     return (
         <>
@@ -32,25 +34,8 @@ const Tasks = () => {
                 >
                     {(todoList.length !== 0 && 'Tasks') || 'Hooray! All Done!'}
                 </Text>
-                {todoList.map((todo, index) => (
-                    <motion.div
-                        initial={{
-                            y: -30,
-                            opacity: 0,
-                        }}
-                        animate={{
-                            y: 0,
-                            opacity: 1,
-                        }}
-                        transition={{
-                            ease: 'easeIn',
-                            duration: 0.2,
-                        }}
-                        exit={{
-                            x: 50,
-                            opacity: 0,
-                        }}
-                    >
+                <Flex ref={parent} direction="column">
+                    {todoList.map((todo, index) => (
                         <Flex
                             minWidth={40}
                             flexGrow={'1'}
@@ -60,8 +45,8 @@ const Tasks = () => {
                             px={'3'}
                             py={2}
                             mb={2}
-                            transition={'ease-in'}
                             justify={'space-between'}
+                            transition="all"
                         >
                             <Text>{todo.title}</Text>
                             <Button
@@ -75,8 +60,8 @@ const Tasks = () => {
                                 <CheckIcon boxSize={3} />
                             </Button>
                         </Flex>
-                    </motion.div>
-                ))}
+                    ))}
+                </Flex>
             </Box>
         </>
     );
