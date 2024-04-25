@@ -3,7 +3,6 @@ import {
     Box,
     Button,
     Flex,
-    ListIcon,
     ListItem,
     Text,
     UnorderedList,
@@ -33,53 +32,47 @@ const Tasks = () => {
         ]);
     }
     return (
-        <>
-            <Box>
-                <Text
-                    textAlign={'center'}
-                    fontWeight="semibold"
-                    marginBottom={2}
-                >
-                    {(todoList.length !== 0 && 'Tasks') || 'Hooray! All Done!'}
-                </Text>
-                <UnorderedList
-                    ref={parent}
-                    display={'flex'}
-                    flexDirection={'column-reverse'}
-                    listStyleType={'none'}
-                    margin={'0'}
-                >
-                    {todoList.map((todo, index) => (
-                        <ListItem>
-                            <Flex
-                                minWidth={40}
-                                flexGrow={'1'}
-                                color={'white'}
-                                bgColor={'blue.600'}
-                                rounded={'md'}
-                                px={'3'}
-                                py={2}
-                                mb={2}
-                                justify={'space-between'}
-                                transition="all"
+        <Box>
+            <Text textAlign={'center'} fontWeight="semibold" marginBottom={2}>
+                {(todoList.length !== 0 && 'Tasks') || 'Hooray! All Done!'}
+            </Text>
+            <UnorderedList
+                ref={parent}
+                display={'flex'}
+                flexDirection={'column-reverse'}
+                listStyleType={'none'}
+                margin={'0'}
+            >
+                {todoList.map((todo, index) => (
+                    <ListItem>
+                        <Flex
+                            minWidth={40}
+                            flexGrow={'1'}
+                            color={'white'}
+                            bgColor={'blue.600'}
+                            rounded={'md'}
+                            px={'3'}
+                            py={2}
+                            mb={2}
+                            justify={'space-between'}
+                            transition="all"
+                        >
+                            <Text>{todo.title}</Text>
+                            <Button
+                                color={'black'}
+                                rounded={'full'}
+                                size={'xs'}
+                                onClick={() => {
+                                    handleChange(index);
+                                }}
                             >
-                                <Text>{todo.title}</Text>
-                                <Button
-                                    color={'black'}
-                                    rounded={'full'}
-                                    size={'xs'}
-                                    onClick={() => {
-                                        handleChange(index);
-                                    }}
-                                >
-                                    <CheckIcon boxSize={3} />
-                                </Button>
-                            </Flex>
-                        </ListItem>
-                    ))}
-                </UnorderedList>
-            </Box>
-        </>
+                                <CheckIcon boxSize={3} />
+                            </Button>
+                        </Flex>
+                    </ListItem>
+                ))}
+            </UnorderedList>
+        </Box>
     );
 };
 

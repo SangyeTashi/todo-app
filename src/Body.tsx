@@ -1,5 +1,5 @@
 import { Flex, Input, Button } from '@chakra-ui/react';
-import { useEffect, useRef } from 'react';
+import { FormEventHandler, useEffect, useRef } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import CompletedTasks from './CompletedTasks';
 import Tasks from './Tasks';
@@ -10,7 +10,7 @@ function Body() {
     const completedTasks = useRecoilValue(completedTodoListAtom);
 
     const inputRef = useRef<null | HTMLInputElement>(null);
-    const handleSubmit = (e: Event) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (inputRef.current?.value) {
             setTodoList([
