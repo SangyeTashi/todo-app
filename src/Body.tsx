@@ -1,14 +1,17 @@
-import { Flex, Input, Button, Text, Box } from '@chakra-ui/react';
-import { useRef } from 'react';
-import { useRecoilState } from 'recoil';
+import { Flex, Input, Button } from '@chakra-ui/react';
+import { useEffect, useRef } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import CompletedTasks from './CompletedTasks';
 import Tasks from './Tasks';
-import { todoListAtom } from './todoAtom';
+import { completedTodoListAtom, todoListAtom } from './todoAtom';
 
 function Body() {
     const [todoList, setTodoList] = useRecoilState(todoListAtom);
+    const completedTasks = useRecoilValue(completedTodoListAtom);
+
     const inputRef = useRef<null | HTMLInputElement>(null);
-    const handleClick = () => {
+    const handleSubmit = (e: Event) => {
+        e.preventDefault();
         if (inputRef.current?.value) {
             setTodoList([
                 ...todoList,
@@ -17,31 +20,40 @@ function Body() {
             inputRef.current.value = '';
         }
     };
+
+    useEffect(() => {
+        localStorage.setItem('todo', JSON.stringify(todoList));
+    }, [todoList.length]);
+
+    useEffect(() => {
+        localStorage.setItem('completed', JSON.stringify(completedTasks));
+    }, [completedTasks.length]);
     return (
         <Flex alignItems="center" direction="column" padding={8} height="">
-            <Flex mb={4}>
-                <Input
-                    variant={'outline'}
-                    type={'text'}
-                    roundedLeft={'lg'}
-                    roundedRight={'none'}
-                    ref={inputRef}
-                    placeholder="Add a task.."
-                    bgColor={'whiteAlpha.800'}
-                    borderColor={'whiteAlpha.800'}
-                />
-                <Button
-                    color={'white'}
-                    bgColor={'blue.500'}
-                    roundedRight={'lg'}
-                    roundedLeft={'none'}
-                    onClick={handleClick}
-                    _hover={{ bgColor: 'blue.300' }}
-                >
-                    +
-                </Button>
-            </Flex>
-
+            <form onSubmit={handleSubmit}>
+                <Flex mb={4}>
+                    <Input
+                        variant={'outline'}
+                        type={'text'}
+                        roundedLeft={'lg'}
+                        roundedRight={'none'}
+                        ref={inputRef}
+                        placeholder="Add a task.."
+                        bgColor={'whiteAlpha.800'}
+                        borderColor={'whiteAlpha.800'}
+                    />
+                    <Button
+                        color={'white'}
+                        bgColor={'blue.500'}
+                        roundedRight={'lg'}
+                        roundedLeft={'none'}
+                        type="submit"
+                        _hover={{ bgColor: 'blue.300' }}
+                    >
+                        +
+                    </Button>
+                </Flex>
+            </form>
             <Flex
                 direction={'column'}
                 bgColor={'whiteAlpha.800'}
