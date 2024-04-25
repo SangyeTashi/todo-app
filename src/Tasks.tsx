@@ -1,5 +1,13 @@
 import { CheckIcon } from '@chakra-ui/icons';
-import { Box, Button, Flex, Text } from '@chakra-ui/react';
+import {
+    Box,
+    Button,
+    Flex,
+    ListIcon,
+    ListItem,
+    Text,
+    UnorderedList,
+} from '@chakra-ui/react';
 import { useRecoilState } from 'recoil';
 import { completedTodoListAtom, todoListAtom } from './todoAtom';
 
@@ -34,34 +42,42 @@ const Tasks = () => {
                 >
                     {(todoList.length !== 0 && 'Tasks') || 'Hooray! All Done!'}
                 </Text>
-                <Flex ref={parent} direction="column">
+                <UnorderedList
+                    ref={parent}
+                    display={'flex'}
+                    flexDirection={'column-reverse'}
+                    listStyleType={'none'}
+                    margin={'0'}
+                >
                     {todoList.map((todo, index) => (
-                        <Flex
-                            minWidth={40}
-                            flexGrow={'1'}
-                            color={'white'}
-                            bgColor={'blue.600'}
-                            rounded={'md'}
-                            px={'3'}
-                            py={2}
-                            mb={2}
-                            justify={'space-between'}
-                            transition="all"
-                        >
-                            <Text>{todo.title}</Text>
-                            <Button
-                                color={'black'}
-                                rounded={'full'}
-                                size={'xs'}
-                                onClick={() => {
-                                    handleChange(index);
-                                }}
+                        <ListItem>
+                            <Flex
+                                minWidth={40}
+                                flexGrow={'1'}
+                                color={'white'}
+                                bgColor={'blue.600'}
+                                rounded={'md'}
+                                px={'3'}
+                                py={2}
+                                mb={2}
+                                justify={'space-between'}
+                                transition="all"
                             >
-                                <CheckIcon boxSize={3} />
-                            </Button>
-                        </Flex>
+                                <Text>{todo.title}</Text>
+                                <Button
+                                    color={'black'}
+                                    rounded={'full'}
+                                    size={'xs'}
+                                    onClick={() => {
+                                        handleChange(index);
+                                    }}
+                                >
+                                    <CheckIcon boxSize={3} />
+                                </Button>
+                            </Flex>
+                        </ListItem>
                     ))}
-                </Flex>
+                </UnorderedList>
             </Box>
         </>
     );
