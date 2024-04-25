@@ -29,9 +29,16 @@ function Body() {
         localStorage.setItem('completed', JSON.stringify(completedTasks));
     }, [completedTasks.length]);
     return (
-        <Flex alignItems="center" direction="column" padding={8} height="">
+        <Flex
+            direction="column"
+            mx={'auto'}
+            padding={8}
+            height=""
+            maxWidth={600}
+            fontSize={'md'}
+        >
             <form onSubmit={handleSubmit}>
-                <Flex mb={4}>
+                <Flex mb={5}>
                     <Input
                         variant={'outline'}
                         type={'text'}
@@ -59,8 +66,6 @@ function Body() {
                 bgColor={'whiteAlpha.800'}
                 padding={4}
                 rounded={'lg'}
-                minWidth={280}
-                maxWidth={400}
             >
                 <Tasks />
                 <CompletedTasks />
